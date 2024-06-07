@@ -1,0 +1,50 @@
+{% extends "geolocation_app/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Register</h1>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="email" name="email" placeholder="Email Address">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="phone_number" placeholder="Phone Number">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+        </div>
+        <select name="Type" id="Type">
+            <option disabled selected>Choose your Account Type</option>
+            <option value="parent">Parent</option>
+            <option value="child">Child</option>
+        </select>
+        <!-- Field for parent_id (only visible if registering as a child) -->
+        <div class="form-group" id="parent_id_field" style="display: none;">
+            <input class="form-control" type="text" name="parent_id" placeholder="Parent ID">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Register">
+    </form>
+
+    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+</div>
+
+<script>
+    // Function to show/hide the parent_id field based on the selected account type
+    document.getElementById('Type').addEventListener('change', function() {
+        var parentField = document.getElementById('parent_id_field');
+        if (this.value === 'child') {
+            parentField.style.display = 'block';
+        } else {
+            parentField.style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock %}

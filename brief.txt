@@ -1,0 +1,23 @@
+
+Title: Geo-Location Child Tracking App
+
+Project Description: The Geo-Location Child Tracking App is a real-time location tracking application designed to help parents keep track of their children's location. 
+
+The app will use Django as the web framework, Python for the backend and JavaScript for the frontend. 
+
+
+Target Audience:
+Parents who want to keep track of their children's location in real-time.
+Parents with children
+
+Features of app:
+Real-Time Location Tracking: The app will use GPS technology to track the child's location in real-time, allowing parents to view their child's current location on a map and this will be done by using Google API maps
+
+Distance Calculation: The app will automatically calculate the distance between the parent and the child, providing an estimate of how far apart they are.
+
+Live Chat System: The app will include a live chat system, which will let parents and children to communicate with each other in real-time.
+
+Primary Goal:
+Let the parents know about their childs location and to ensure their saftey incase something were to happen
+The real-time location tracking feature will allow the parents to quickly locate their children in case of an emergency, 
+The live chat system will help parents and children to stay connected throughout the day

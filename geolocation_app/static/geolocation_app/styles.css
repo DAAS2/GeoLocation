@@ -240,7 +240,6 @@ select#Type:focus {
   border-color: var(--first-color); /* Change border color on focus */
 }
 
-
 .chat__item__container {
   width: 100%;
   max-width: 800px;

@@ -1,13 +1,10 @@
 {% extends "geolocation_app/layout.html" %}
+
 {% block body %}
 <div class="register">
     <div class="register__content">
-        <div class="register__img">
-            <img src="assets/img/img-register.svg" alt="Register Image">
-        </div>
-
         <div class="register__forms">
-            <form action="{% url 'register' %}" method="post" class="register__create" id="register-in">
+            <form action="{% url 'register' %}" method="post" class="register__registre" id="register-in">
                 {% csrf_token %}
                 <h1 class="register__title">Sign Up</h1>
 

@@ -1,213 +1,103 @@
-/*===== GOOGLE FONTS =====*/
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
-
-/*===== VARIABLES CSS =====*/
-:root{
-  /*===== Colors =====*/
-  --first-color: #9D4BFF;
-  --first-color-dark: #23004D;
-  --first-color-light: #A49EAC;
-  --first-color-lighten: #F2F2F2;
-
-  /*===== Font and typography =====*/
-  --body-font: 'Open Sans', sans-serif;
-  --h1-font-size: 1.5rem;
-  --normal-font-size: .938rem;
-  --small-font-size: .813rem;
-}
-
-@media screen and (min-width: 768px){
-  :root{
-    --normal-font-size: 1rem;
-    --small-font-size: .875rem;
-  }
-}
-
-/*===== BASE =====*/
-*,::before,::after{
-  box-sizing: border-box;
-}
-
-body{
+/* General Styles */
+body {
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-  color: var(--first-color-dark);
   background-color: #e9f0f7;
 }
 
-h1{
-  margin: 0;
+/* Register Page Styles */
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
 }
 
-a{
-  text-decoration: none;
+.register__content {
+  display: grid;
+  justify-items: center;
 }
 
-img{
-  max-width: 100%;
-  height: auto;
+.register__forms {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--first-color-lighten);
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(35,0,77,.2);
+}
+
+.register__title {
+  font-size: var(--h1-font-size);
+  margin-bottom: 2rem;
+  color: var(--first-color-dark);
+}
+
+.register__box {
+  display: flex;
+  align-items: center;
+  background-color: #FFF;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: .5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.register__icon {
+  font-size: 1.5rem;
+  color: var(--first-color);
+  margin-right: 0.5rem;
+}
+
+.register__input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: var(--normal-font-size);
+  font-weight: 700;
+  color: var(--first-color-dark);
+}
+
+.register__input::placeholder {
+  font-size: var(--normal-font-size);
+  font-family: var(--body-font);
+  color: var(--first-color-light);
+}
+
+.register__button {
   display: block;
+  width: 100%;
+  padding: 1rem;
+  margin: 2rem 0;
+  background-color: var(--first-color);
+  color: #FFF;
+  font-weight: 600;
+  text-align: center;
+  border-radius: .5rem;
+  transition: .3s;
 }
 
-/*===== LOGIN & REGISTER =====*/
-.login, .register {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100%;
+.register__button:hover {
+  background-color: var(--first-color-dark);
 }
 
-.login__content, .register__content {
-    display: grid;
-    justify-items: center;
+.register__account, .register__signin {
+  font-weight: 600;
+  font-size: var(--small-font-size);
 }
 
-.login__img img, .register__img img {
-    width: 310px;
-    margin-top: 1.5rem;
+.register__account {
+  color: var(--first-color-dark);
 }
 
-.login__forms, .register__forms {
-    position: relative;
-    height: auto;
-}
-
-.login__registre, .register__create {
-    position: absolute;
-    bottom: 1rem;
-    width: 100%;
-    background-color: var(--first-color-lighten);
-    padding: 2rem 1rem;
-    border-radius: 1rem;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(35,0,77,.2);
-    animation-duration: .4s;
-    animation-name: animate-login;
-}
-
-@keyframes animate-login {
-    0%{
-        transform: scale(1,1);
-    }
-    50%{
-        transform: scale(1.1,1.1);
-    }
-    100%{
-        transform: scale(1,1);
-    }
-}
-
-.login__title, .register__title {
-    font-size: var(--h1-font-size);
-    margin-bottom: 2rem;
-}
-
-.login__box, .register__box {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    column-gap: .5rem;
-    padding: 1.125rem 1rem;
-    background-color: #FFF;
-    margin-top: 1rem;
-    border-radius: .5rem;
-}
-
-.login__icon, .register__icon {
-    font-size: 1.5rem;
-    color: var(--first-color);
-}
-
-.login__input, .register__input {
-    border: none;
-    outline: none;
-    font-size: var(--normal-font-size);
-    font-weight: 700;
-    color: var(--first-color-dark);
-    width: 100%;
-}
-
-.login__input::placeholder, .register__input::placeholder {
-    font-size: var(--normal-font-size);
-    font-family: var(--body-font);
-    color: var(--first-color-light);
-}
-
-.login__button, .register__button {
-    display: block;
-    padding: 1rem;
-    margin: 2rem 0;
-    background-color: var(--first-color);
-    color: #FFF;
-    font-weight: 600;
-    text-align: center;
-    border-radius: .5rem;
-    transition: .3s;
-}
-
-.login__button:hover, .register__button:hover {
-    background-color: var(--first-color-dark);
-}
-
-.login__account, .register__account, .login__signin, .register__signin, .login__signup, .register__signup {
-    font-weight: 600;
-    font-size: var(--small-font-size);
-}
-
-.login__account, .register__account {
-    color: var(--first-color-dark);
-}
-
-.login__signin, .register__signin, .login__signup, .register__signup {
-    color: var(--first-color);
-    cursor: pointer;
-}
-
-.block{
-    display: block;
-}
-
-.none{
-    display: none;
-}
-
-@media screen and (min-width: 576px){
-    .login__forms, .register__forms {
-        width: 348px;
-        justify-self: center;
-    }
-}
-
-@media screen and (min-width: 1024px){
-    .login, .register {
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    .login__content, .register__content {
-        grid-template-columns: repeat(2, max-content);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .login__img img, .register__img img {
-        width: 390px;
-        margin-top: 0;
-    }
-
-    .login__registre, .register__create {
-        left: -11rem;
-    }
-
-    .login__registre {
-        bottom: -2rem;
-    }
-
-    .register__create {
-        bottom: -5.5rem;
-    }
+.register__signin {
+  color: var(--first-color);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 /* Customize the appearance of the select element */
@@ -215,7 +105,7 @@ select#Type {
   width: 100%;
   padding: 0.5rem;
   font-size: var(--normal-font-size);
-  border: 1px solid var(--first-color-dark);
+  border: none;
   border-radius: 0.5rem;
   background-color: #FFF; /* White background color */
   color: var(--first-color-dark);
@@ -223,22 +113,19 @@ select#Type {
   outline: none; /* Remove outline */
 }
 
-/* Style for the options within the select element */
 select#Type option {
   padding: 0.5rem;
   font-size: var(--normal-font-size);
-  border-bottom: 1px solid var(--first-color-dark);
 }
 
-/* Style for the select element when hovered */
 select#Type:hover {
   background-color: var(--first-color-lighten); /* Lighten background color on hover */
 }
 
-/* Style for the select element when focused */
 select#Type:focus {
   border-color: var(--first-color); /* Change border color on focus */
 }
+  
 
 .chat__item__container {
   width: 100%;

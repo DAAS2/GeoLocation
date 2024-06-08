@@ -2,12 +2,45 @@
 
 {% block body %}
 
+{% for childs in child %}
+<input type="text" id="lng" value="{{ childs.latitude }}"  style="display: none;"/>
+<input type="text" id="lat" value="{{ childs.longitude }}" style="display: none;" />
+
+{% endfor %}
 <div id="map"></div>
 
-
-{% csrf_token %}
 <script>
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // Initialise map
+    async function initMap() {      
+        console.log(document.getElementById('lat').value)
+        console.log(document.getElementById('lng').value)
+        const userLocation = {
+            lat: parseFloat(document.getElementById('lng').value),
+            lng: parseFloat(document.getElementById('lat').value)
+        }
+        // Create Google map with user location
+        const map = new google.maps.Map(document.getElementById("map"), {
+            mapId: "8e0a97af9386fef",
+            zoom: 15,
+            center: userLocation,
+            disableDefaultUI: true
+        });
+
+        // Create marker 
+        const marker = new google.maps.Marker({
+            position: userLocation,
+            map: map,
+        });
+
+        // Display accuracy on the map or somewhere on the webpage
+        const accuracyElement = document.getElementById('accuracy');
+        if (accuracyElement) {
+            accuracyElement.innerText = `Accuracy: ${position.coords.accuracy} meters`;
+        }
+    }; 
+
+    initMap()
+
 </script>
 
 {% endblock %}

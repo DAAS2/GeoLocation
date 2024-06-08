@@ -20,6 +20,7 @@ class Parent(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Child(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
@@ -27,5 +28,10 @@ class Child(models.Model):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
 
-    def __str__(self):
-        return self.user.username
+    def update_location(self, latitude, longitude):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.save()
+
+    def get_location(self):
+        return (self.latitude, self.longitude)

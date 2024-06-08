@@ -1,31 +1,116 @@
 {% extends "geolocation_app/layout.html" %}
 {% block body %}
-    {% if is_child %}
-        <div id="map"></div>
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    {% else %}
-        {% if message %}
-            <div class="alert alert-success" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-            {% if parent and not children %}
-            {% elif children and parent %}
-                <h2>Parent of Children</h2>
-                <p>Parent Name: {{ parent }}</p>
-                <p>Parent ID: {{ parent_id }}</p>
-                <ul>
-                    {% for child in children %}
-                        <li>{{ child }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endif %}
+    {% if not is_child %}
+    {% if message %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
     {% endif %}
 
-    <script>
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    </script>
+    {% if user.is_authenticated %}
+        {% if parent and not children %}
+        {% elif children and parent %}
+            <h2>Parent of Children</h2>
+            <p>Parent Name: {{ parent }}</p>
+            <p>Parent ID: {{ parent_id }}</p>
+            <ul>
+                {% for child in children %}
+                    <li>{{ child }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+    
+    {% else %}
+    <div id="map"></div>
+
+        <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="{% csrf_token %}">
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Retrieve CSRF token value
+                const csrfToken = document.getElementById('csrf_token').value;
+            
+                // Function to send location data to the server
+                function sendLocationToServer(position) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "update_location" %}',
+                        data: JSON.stringify({
+                            'latitude': position.coords.latitude,
+                            'longitude': position.coords.longitude,
+                        }),
+                        contentType: 'application/json',
+                        headers: {
+                            'X-CSRFToken': csrfToken
+                        },
+                        success: function(response) {
+                            console.log("Location sent to server");
+                            console.log(response); // Log the response from the server
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error("Error sending location to server:", errorThrown);
+                        }
+                    });
+                }
+            
+                // Initialise map
+            async function initMap(position) {        
+                console.log('Latitude:', position.coords.latitude);
+                console.log('Longitude:', position.coords.longitude);
+                console.log('Accuracy:', position.coords.accuracy);
+
+
+                // User location coordinates
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                // Create Google map with user location
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    mapId: "8e0a97af9386fef",
+                    zoom: 15,
+                    center: userLocation,
+                    disableDefaultUI: true
+                });
+
+                // Create marker 
+                const marker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                });
+
+                // Display accuracy on the map or somewhere on the webpage
+                const accuracyElement = document.getElementById('accuracy');
+                if (accuracyElement) {
+                    accuracyElement.innerText = `Accuracy: ${position.coords.accuracy} meters`;
+                }
+            }; 
+
+
+            function trackLocation() {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        initMap(position);
+                        // Send child's location to the server
+                        sendLocationToServer(position)
+                    },
+                    (error) => {
+                        console.error("Geolocation error:", error);
+                        alert("Geolocation failed. Please enable location services and try again.");
+                    }, 
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0
+                    }
+                );
+            }
+            
+                // Call getUserLocation to start watching user's location when the document is loaded
+                trackLocation();
+            });
+            
+        </script>
+    {% endif %}
 {% endblock %}

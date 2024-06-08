@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 import json
 from .models import User, Parent, Child, ChatMessage
+
+
+# main page 
 def index(request):
     parent = None
     children = None
@@ -18,6 +21,7 @@ def index(request):
     message = None
 
     if request.user.is_authenticated:
+        # see if the user is a parent or a child
         try:
             parent = Parent.objects.get(user=request.user)
             children = Child.objects.filter(parent=parent)
@@ -40,6 +44,7 @@ def index(request):
     })
 
 
+# find child location
 def find_child(request):
     try:
         child = Child.objects.get(user=request.user)
@@ -54,28 +59,37 @@ def find_child(request):
 
 @require_POST
 @csrf_exempt
+# save the childs location
 def save_child_location(request):
+    # if user logged in
     if request.user.is_authenticated and request.body:
         try:
+            # fetch data from json object
             data = json.loads(request.body)
             lat = data.get('lat')
             lng = data.get('lng')
+            # find child and add cordinates
             child = Child.objects.get(user=request.user)
             child.latitude = lat
             child.longitude = lng
             child.save()
             return JsonResponse({'success': True, 'lat': lat, 'lng': lng})
+        # if child doesnt exist or invalid request
         except (Child.DoesNotExist, json.JSONDecodeError):
             return JsonResponse({'success': False, 'message': 'Invalid request or Child not found'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request'})
 
+# contact child in chat
 def contact_child(request, *args, **kwargs):
+    # set variables to None
     parent = None
     children = None
     is_child = False
     
+    
     if request.user.is_authenticated:
+        # check if parent or child
         try:
             parent = Parent.objects.get(user=request.user)
             children = Child.objects.filter(parent=parent)
@@ -88,7 +102,7 @@ def contact_child(request, *args, **kwargs):
                 is_child = True
             except Child.DoesNotExist:
                 # If the user is neither parent nor child, handle accordingly
-                pass
+                return HttpResponseRedirect(reverse("index"))
     
     # Fetch last messages
     last_messages = ChatMessage.objects.all()
@@ -99,10 +113,11 @@ def contact_child(request, *args, **kwargs):
         "parent": parent,
         "last_messages": last_messages
     }
+    
     return render(request, "geolocation_app/contact_child.html", context)
 
 
-
+# login page
 def login_view(request):
     if request.method == "POST":
 
@@ -115,6 +130,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
+        # if wrong username or password
         else:
             return render(request, "geolocation_app/login.html", {
                 "message": "Invalid username and/or password."
@@ -123,13 +139,16 @@ def login_view(request):
         return render(request, "geolocation_app/login.html")
 
 
+# log user out
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
+# register user
 def register(request):
     if request.method == "POST":
+        # get details from html form
         username = request.POST["username"]
         email = request.POST["email"]
         accounttype = request.POST["Type"]
@@ -148,20 +167,24 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
             
+            # if parent account
             if accounttype == ("parent"):
                 parent = Parent.objects.create(user=user, phone_number=phone)
                 parent.save()
-                
+            
+            # if child account find parent then assign the child to the parent
             elif accounttype == ("child"):
                 parent_id = request.POST["parent_id"]
                 parent = Parent.objects.get(id=parent_id)
                 child = Child.objects.create(user=user, parent=parent)
                 child.save()
                 
+        # if username is already taken        
         except IntegrityError:
             return render(request, "geolocation_app/register.html", {
                 "message": "Username already taken."
             })
+            
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:

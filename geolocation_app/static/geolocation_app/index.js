@@ -1,59 +1,71 @@
 document.addEventListener('DOMContentLoaded', function() {
     trackLocation()
     Chat();
-
-    async function initMap(position) {
-        try {
-            const response = await fetch('/save_child_location/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ lat: position.coords.latitude, lng: position.coords.longitude })
-            });
-
-
-            console.log(position.coords.latitude, position.coords.longitude);
-
-            const userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            const map = new google.maps.Map(document.getElementById("map"), {
-                mapId: "8e0a97af9386fef",
-                zoom: 15,
-                center: userLocation,
-                disableDefaultUI: true
-            });
-
-            console.log(userLocation);
-
-            const marker = new google.maps.Marker({
-                position: userLocation,
-                map: map,
-            });
-        } catch (error) {
-            console.log('An error occurred while loading the map: ' + error.message);
-        }
-    }
-
-    function trackLocation() {
-        return navigator.geolocation.watchPosition(
-            (position) => initMap(position),
-            (error) => {
-                console.error("Geolocation error:", error);
-                alert("Geolocation failed. Please enable location services and try again.");
-            }, 
-            {
-                enableHighAccuracy: true,
-                maximumAge: 0
-            }
-        );
-        setInterval(trackLocation, 1000);
-    }
 });
+
+// initialise map
+async function initMap(position) {
+    // fetch the childs location that has been saved 
+    try {
+        const response = await fetch('/save_child_location/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            // add lat and lng to body
+            body: JSON.stringify({ lat: position.coords.latitude, lng: position.coords.longitude })
+        });
+
+
+        console.log(position.coords.latitude, position.coords.longitude);
+        
+        // User location cords
+        const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        };
+
+        // create google map with user location
+        const map = new google.maps.Map(document.getElementById("map"), {
+            mapId: "8e0a97af9386fef",
+            zoom: 15,
+            center: userLocation,
+            disableDefaultUI: true
+        });
+
+        console.log(userLocation);
+        
+        // create marker 
+        const marker = new google.maps.Marker({
+            position: userLocation,
+            map: map,
+        });
+    } 
+    
+    catch (error) {
+        console.log('An error occurred while loading the map: ' + error.message);
+    }
+}
+
+// track childs location
+function trackLocation() {
+    // return childs live location
+    return navigator.geolocation.watchPosition(
+        (position) => initMap(position),
+        (error) => {
+            console.error("Geolocation error:", error);
+            alert("Geolocation failed. Please enable location services and try again.");
+        }, 
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0
+        }
+    );
+    // happen every second
+    setInterval(trackLocation, 1000);
+}
+
 
 function Chat() {
     try {

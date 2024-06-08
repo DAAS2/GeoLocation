@@ -47,4 +47,31 @@
 
                 <!-- Field for parent_id (only visible if registering as a child) -->
                 <div class="register__box" id="parent_id_field" style="display: none;">
-                    <i class='bx bx-id-card register__icon'></
+                    <i class='bx bx-id-card register__icon'></i>
+                    <input type="text" name="parent_id" placeholder="Parent ID" class="register__input form-control">
+                </div>
+
+                <input class="register__button" type="submit" value="Register">
+
+                <div>
+                    <span class="register__account">Already have an Account?</span>
+                    <a href="{% url 'login' %}" class="register__signin">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to show/hide the parent_id field based on the selected account type
+    document.getElementById('Type').addEventListener('change', function() {
+        var parentField = document.getElementById('parent_id_field');
+        if (this.value === 'child') {
+            parentField.style.display = 'block';
+        } else {
+            parentField.style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock %}

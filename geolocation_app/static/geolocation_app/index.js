@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    trackLocation()
+    trackLocation();
     Chat();
 });
 
-// initialise map
+// Initialise map
 async function initMap(position) {
-    // fetch the childs location that has been saved 
+    // Fetch the child's location that has been saved 
     try {
         const response = await fetch('/save_child_location/', {
             method: 'POST',
@@ -13,20 +13,21 @@ async function initMap(position) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}'
             },
-            // add lat and lng to body
+            // Add lat and lng to body
             body: JSON.stringify({ lat: position.coords.latitude, lng: position.coords.longitude })
         });
 
+        console.log('Latitude:', position.coords.latitude);
+        console.log('Longitude:', position.coords.longitude);
+        console.log('Accuracy:', position.coords.accuracy);
 
-        console.log(position.coords.latitude, position.coords.longitude);
-        
-        // User location cords
+        // User location coordinates
         const userLocation = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         };
 
-        // create google map with user location
+        // Create Google map with user location
         const map = new google.maps.Map(document.getElementById("map"), {
             mapId: "8e0a97af9386fef",
             zoom: 15,
@@ -35,22 +36,27 @@ async function initMap(position) {
         });
 
         console.log(userLocation);
-        
-        // create marker 
+
+        // Create marker 
         const marker = new google.maps.Marker({
             position: userLocation,
             map: map,
         });
+
+        // Display accuracy on the map or somewhere on the webpage
+        const accuracyElement = document.getElementById('accuracy');
+        if (accuracyElement) {
+            accuracyElement.innerText = `Accuracy: ${position.coords.accuracy} meters`;
+        }
     } 
-    
     catch (error) {
         console.log('An error occurred while loading the map: ' + error.message);
     }
 }
 
-// track childs location
+// Track child's location
 function trackLocation() {
-    // return childs live location
+    // Return child's live location
     return navigator.geolocation.watchPosition(
         (position) => initMap(position),
         (error) => {
@@ -62,18 +68,17 @@ function trackLocation() {
             maximumAge: 0
         }
     );
-    // happen every second
+    // Happen every second
     setInterval(trackLocation, 1000);
 }
 
-
 // Chat 
 function Chat() {
-    // connext to chat
+    // Connect to chat
     try {
         const chatSocket = new WebSocket("ws://" + window.location.host + "/");
 
-        // if connected succesfully
+        // If connected successfully
         chatSocket.onopen = function(e) {
             console.log("The connection was setup successfully!");
         };
@@ -86,15 +91,15 @@ function Chat() {
             console.log("An error occurred with the WebSocket connection.");
         };
 
-        // get message text
+        // Get message text
         document.querySelector("#id_message_send_input").focus();
         document.querySelector("#id_message_send_input").onkeyup = function(e) {
             if (e.keyCode == 13) {
                 document.querySelector("#id_message_send_button").click();
             }
         };
-        
-        // when button clicked then send message and username
+
+        // When button clicked then send message and username
         document.querySelector("#id_message_send_button").onclick = function(e) {
             var messageInput = document.querySelector("#id_message_send_input").value;
 
@@ -106,7 +111,7 @@ function Chat() {
             chatSocket.send(JSON.stringify({ message: messageInput, username: "{{request.user.username}}" }));
         };
 
-        // parse the message and username and create the write css for it
+        // Parse the message and username and create the write CSS for it
         chatSocket.onmessage = function(e) {
             try {
                 const data = JSON.parse(e.data);

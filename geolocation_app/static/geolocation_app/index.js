@@ -67,10 +67,13 @@ function trackLocation() {
 }
 
 
+// Chat 
 function Chat() {
+    // connext to chat
     try {
         const chatSocket = new WebSocket("ws://" + window.location.host + "/");
 
+        // if connected succesfully
         chatSocket.onopen = function(e) {
             console.log("The connection was setup successfully!");
         };
@@ -83,13 +86,15 @@ function Chat() {
             console.log("An error occurred with the WebSocket connection.");
         };
 
+        // get message text
         document.querySelector("#id_message_send_input").focus();
         document.querySelector("#id_message_send_input").onkeyup = function(e) {
             if (e.keyCode == 13) {
                 document.querySelector("#id_message_send_button").click();
             }
         };
-
+        
+        // when button clicked then send message and username
         document.querySelector("#id_message_send_button").onclick = function(e) {
             var messageInput = document.querySelector("#id_message_send_input").value;
 
@@ -101,6 +106,7 @@ function Chat() {
             chatSocket.send(JSON.stringify({ message: messageInput, username: "{{request.user.username}}" }));
         };
 
+        // parse the message and username and create the write css for it
         chatSocket.onmessage = function(e) {
             try {
                 const data = JSON.parse(e.data);

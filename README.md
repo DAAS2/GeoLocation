@@ -15,6 +15,10 @@ Primary Goal:
 - The real-time location tracking feature will allow the parents to quickly locate their children in case of an emergency, 
 - The live chat system will help parents and children to stay connected throughout the day
 
+How to use application:
+ - I've deployed the app on pythonanywhere and to test the app just click this link that will take you to the app:
+     - [https://daas2.pythonanywhere.com/](url)
+  - Create A parent account first, then use the parent id to create the child account
 
 File Structure and Functions:
 

@@ -16,7 +16,7 @@ Primary Goal:
 - The live chat system will help parents and children to stay connected throughout the day
 
 How to use application:
- - I've deployed the app on pythonanywhere and to test the app just click this link that will take you to the app:
+ - I've deployed the app on pythonanywhere and to test the app just click this link that will take you to the app I recommend using your phone for this as it has a built in GPS and is accurate compared to using it on computer.
      - [https://daas2.pythonanywhere.com/](url)
   - Create A parent account first, then use the parent id to create the child account
 

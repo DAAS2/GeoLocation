@@ -84,6 +84,7 @@ login_view(), logout_view(), register():
 - authenticates user and hashes password and important details
 
 Functions in consumers.py:
+
 ChatConsumer:
 - This is a class that handles the chat functionality
 - It uses websockets to implement chat

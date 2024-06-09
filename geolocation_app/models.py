@@ -35,3 +35,6 @@ class Child(models.Model):
 
     def get_location(self):
         return (self.latitude, self.longitude)
+    
+    def __str__(self):
+        return self.user.username

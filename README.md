@@ -91,6 +91,7 @@ ChatConsumer:
 - It also sends the messages to the database to be stored
 
 JavaScript Functions:
+
 Chat():
 - This function is used to send and receive messages
 - It connects to the websocket and sends the messages to the server

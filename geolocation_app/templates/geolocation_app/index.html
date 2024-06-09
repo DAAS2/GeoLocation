@@ -10,9 +10,10 @@
     {% if user.is_authenticated %}
         {% if parent and not children %}
         {% elif children and parent %}
-            <h2>Parent of Children</h2>
+            <h2>Your details: </h2>
             <p>Parent Name: {{ parent }}</p>
             <p>Parent ID: {{ parent_id }}</p>
+            <p>Children assigned to you:</p>
             <ul>
                 {% for child in children %}
                     <li>{{ child }}</li>

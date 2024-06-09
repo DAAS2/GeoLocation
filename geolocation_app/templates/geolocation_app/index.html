@@ -9,6 +9,12 @@
 
     {% if user.is_authenticated %}
         {% if parent and not children %}
+        <h2>Your details: </h2>
+            <p>Parent Name: {{ parent }}</p>
+            <p>Use the parent id and input it in when creating your childs account</p>
+            <p>Parent ID: {{ parent_id }}</p>
+            <p>You have no children with this account</p>
+            <ul>
         {% elif children and parent %}
             <h2>Your details: </h2>
             <p>Parent Name: {{ parent }}</p>

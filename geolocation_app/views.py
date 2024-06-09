@@ -47,7 +47,7 @@ def find_child(request):
         parent = Parent.objects.get(user=request.user)
         child = Child.objects.filter(parent=parent)
     except Child.DoesNotExist:
-        return HttpResponse("You do not have any children")
+        pass
         
     return render(request, "geolocation_app/findchild.html", {
         'child': child
@@ -160,11 +160,17 @@ def register(request):
                 parent.save()
                 
             elif accounttype == ("child"):
-                parent_id = request.POST["parent_id"]
-                parent = Parent.objects.get(id=parent_id)
-                child = Child.objects.create(user=user, parent=parent)
-                child.save()
+                try: 
+                    parent_id = request.POST["parent_id"]
+                    parent = Parent.objects.get(id=parent_id)
+                    child = Child.objects.create(user=user, parent=parent)
+                    child.save()
+                except Parent.DoesNotExist:
+                    return render(request, "geolocation_app/register.html", {
+                        "message": "Parent does not have that ID."
+                    })
                 
+
         except IntegrityError:
             return render(request, "geolocation_app/register.html", {
                 "message": "Username already taken."

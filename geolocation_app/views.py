@@ -62,7 +62,7 @@ def update_location(request):
             latitude = data.get('latitude')
             longitude = data.get('longitude')
 
-            # Assuming the child is associated with the authenticated user
+            # Assuming the child is associated with user
             child = Child.objects.get(user=request.user)
             child.latitude = latitude
             child.longitude = longitude

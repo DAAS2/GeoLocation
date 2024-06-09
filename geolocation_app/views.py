@@ -31,7 +31,8 @@ def index(request):
                 children = [child]
                 is_child = True
             except Child.DoesNotExist:
-                pass
+                parent = Parent.objects.get(user=request.user)
+                parent_id = parent.id
 
     return render(request, 'geolocation_app/index.html', {
         'parent': parent,

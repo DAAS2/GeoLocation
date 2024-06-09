@@ -17,6 +17,7 @@
             <ul>
                 {% for child in children %}
                     <li>{{ child }}</li>
+                    <input type="text" id="username" value="{{ child }}" style="display: none;" />
                 {% endfor %}
             </ul>
         {% endif %}
@@ -80,6 +81,8 @@
                 const marker = new google.maps.Marker({
                     position: userLocation,
                     map: map,
+                    title: document.getElementById('username').value,
+                    label: document.getElementById('username').value
                 });
 
                 // Display accuracy on the map or somewhere on the webpage

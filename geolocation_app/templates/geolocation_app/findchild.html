@@ -5,7 +5,7 @@
 {% for childs in child %}
 <input type="text" id="lng" value="{{ childs.latitude }}"  style="display: none;"/>
 <input type="text" id="lat" value="{{ childs.longitude }}" style="display: none;" />
-
+<input type="text" id="username" value="{{ childs }}" style="display: none;" />
 {% endfor %}
 <div id="map"></div>
 
@@ -14,6 +14,7 @@
     async function initMap() {      
         console.log(document.getElementById('lat').value)
         console.log(document.getElementById('lng').value)
+        console.log(document.getElementById('username').value)
         const userLocation = {
             lat: parseFloat(document.getElementById('lng').value),
             lng: parseFloat(document.getElementById('lat').value)
@@ -30,6 +31,8 @@
         const marker = new google.maps.Marker({
             position: userLocation,
             map: map,
+            title: document.getElementById('username').value,
+            label: document.getElementById('username').value
         });
 
         // Display accuracy on the map or somewhere on the webpage

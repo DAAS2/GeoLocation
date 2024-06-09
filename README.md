@@ -20,6 +20,12 @@ How to use application:
      - [https://daas2.pythonanywhere.com/](url)
   - Create A parent account first, then use the parent id to create the child account
 
+Testing Accounts that you can use:
+- Parent Account: Parent
+- password: cricket123 
+- Child Account: tester
+- password: cricket123 
+
 Note:
 - The program may contain some logic errors as I haven't had enough time to catch and deal with all of them
 - I wanted to add Distance Calculation and also wanted private chat rooms however with the time limit I wasn't able to do so

@@ -17,6 +17,7 @@ Primary Goal:
 
 
 File Structure and Functions:
+
 Index.html:
 - This is the main page of the application where the users get personalised information depedening if they're a child or parent
 - If the user is a child then it will display a map view where the child's location is displayed
@@ -59,6 +60,7 @@ models.py
 
 
 Functions in views.py:
+
 index():
 - This function renders the index page
 - It checks if the user is a parent or child and then sends the info to index.html

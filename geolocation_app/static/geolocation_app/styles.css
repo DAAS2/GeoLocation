@@ -37,6 +37,32 @@ body{
   color: var(--first-color-dark);
 }
 
+.disclaimer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.disclaimer h4 {
+    margin-top: 0;
+}
+.disclaimer p {
+    margin: 5px 0;
+}
+
+.copyright {
+    position: fixed;
+    bottom: -2%;
+    right: 0;
+    padding: 10px;
+    background-color: white; /* Optional: to make the text stand out */
+
+}
+
 h1{
   margin: 0;
 }
